@@ -1,0 +1,21 @@
+{
+  "name": "watchlist",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "prettier": "^1.7.3",
+    "react": "^16.0.0",
+    "react-dom": "^16.0.0",
+    "react-router-dom": "^4.2.2",
+    "react-scripts": "1.0.14",
+    "react-select": "^1.0.0-rc.10",
+    "styled-components": "^2.2.0",
+    "typeface-roboto": "^0.0.35"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  }
+}
