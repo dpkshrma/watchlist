@@ -2,18 +2,13 @@ import React from 'react';
 import styled from 'styled-components';
 import Select from 'react-select';
 import 'react-select/dist/react-select.css';
-import bg from './bg.jpg';
 import PlayIcon from './PlayIcon';
 
-const BackgroundLayer = styled.div`
-  background: url(${bg});
-`;
 const FormWrapper = styled.div`
   display: flex;
   justify-content: center;
   height: 100vh;
   align-items: center;
-  background: rgba(0,0,0,0.8);
   color: #bbb;
 `;
 const Form = styled.form`
@@ -119,44 +114,42 @@ class UserForm extends React.Component {
   }
   render() {
     return (
-      <BackgroundLayer>
-        <FormWrapper>
-          <Form>
-            <Label>What'd like to watch?</Label>
-            <Text>I'd like to watch </Text>
-            {this.state.genre.value && this.state.genre.value.startsWith('a') ? <Text> an </Text> : <Text> a </Text>}
-            <MultiSelect
-              name="genre"
-              value={this.state.genre}
-              options={this.state.genres}
-              onChange={this.updateGenre}
-              searchable={false}
-            />
-            <Text> movie.</Text><br />
-            <Text>Suggest me some </Text>
-            <MultiSelect
-              name="movieType"
-              value={this.state.movieType}
-              options={this.state.movieTypes}
-              onChange={this.updateMovieType}
-              searchable={false}
-            />
-            <Text> ones!</Text><br />
-            <MultiSelect
-              name="movieType"
-              value={this.state.watchedOption}
-              options={this.state.watchedOptions}
-              onChange={this.updateWatchedOption}
-              searchable={false}
-            />
-            <Text>the ones I've watched.</Text>
-            <br />
-            <Icon>
-              <PlayIcon width="64px" />
-            </Icon>
-          </Form>
-        </FormWrapper>
-      </BackgroundLayer>
+      <FormWrapper>
+        <Form>
+          <Label>What'd like to watch?</Label>
+          <Text>I'd like to watch </Text>
+          {this.state.genre.value && this.state.genre.value.startsWith('a') ? <Text> an </Text> : <Text> a </Text>}
+          <MultiSelect
+            name="genre"
+            value={this.state.genre}
+            options={this.state.genres}
+            onChange={this.updateGenre}
+            searchable={false}
+          />
+          <Text> movie.</Text><br />
+          <Text>Suggest me some </Text>
+          <MultiSelect
+            name="movieType"
+            value={this.state.movieType}
+            options={this.state.movieTypes}
+            onChange={this.updateMovieType}
+            searchable={false}
+          />
+          <Text> ones!</Text><br />
+          <MultiSelect
+            name="movieType"
+            value={this.state.watchedOption}
+            options={this.state.watchedOptions}
+            onChange={this.updateWatchedOption}
+            searchable={false}
+          />
+          <Text>the ones I've watched.</Text>
+          <br />
+          <Icon>
+            <PlayIcon width="64px" />
+          </Icon>
+        </Form>
+      </FormWrapper>
     );
   }
 }
