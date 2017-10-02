@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import queryString from 'query-string';
 import fetch from 'isomorphic-fetch';
 import { ViewPager, Frame, Track, View } from 'react-view-pager';
+import { LeftChevron, RightChevron } from './chevrons';
 import { TMDB_API_KEY, TMDB_POSTER_URL, TMDB_BACKDROP_URL, TMDB_DISCOVER_URL, SORT_MAP } from '../config';
 
 const StyledViewPager = styled(ViewPager)`
@@ -20,7 +21,7 @@ const NavLink = styled.a`
   font-family: roboto;
   font-weight: 100;
   position: absolute;
-  top: 25vh;
+  top: 35vh;
 `;
 
 class SuggestionList extends React.Component {
@@ -83,7 +84,7 @@ class SuggestionList extends React.Component {
         <Frame className="frame">
           <Track
             ref={c => this.track = c}
-            viewsToShow={2}
+            viewsToShow={3}
             infinite
             className="track"
             onViewChange={this.onViewChange}
@@ -113,16 +114,16 @@ class SuggestionList extends React.Component {
           <NavLink
             className="pager-control pager-control--prev"
             onClick={() => this.track.prev()}
-            style={{ left: 0 }}
+            style={{ left: 12 }}
           >
-            {`<`}
+            <LeftChevron />
           </NavLink>
           <NavLink
             className="pager-control pager-control--next"
             onClick={() => this.track.next()}
-            style={{ right: 0 }}
+            style={{ right: 12 }}
           >
-            {`>`}
+            <RightChevron />
           </NavLink>
         </nav>
       </StyledViewPager>
