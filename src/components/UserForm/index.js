@@ -2,12 +2,19 @@ import React from 'react';
 import styled from 'styled-components';
 import Select from 'react-select';
 import 'react-select/dist/react-select.css';
+import bg from './bg.jpg';
+import PlayIcon from './PlayIcon';
 
+const BackgroundLayer = styled.div`
+  background: url(${bg});
+`;
 const FormWrapper = styled.div`
   display: flex;
   justify-content: center;
   height: 100vh;
   align-items: center;
+  background: rgba(0,0,0,0.8);
+  color: #bbb;
 `;
 const Form = styled.form`
   margin-top: -160px;
@@ -27,8 +34,10 @@ const MultiSelect = styled(Select)`
   }
   & .Select-control {
     border: none;
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid #55c4cd;
+    border-radius: 0;
     overflow: visible;
+    background: transparent;
   }
   & .Select-clear-zone {
     display: none;
@@ -38,13 +47,16 @@ const MultiSelect = styled(Select)`
   }
   &.is-focused:not(.is-open) > .Select-control {
     border: none;
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid #55c4cd;
     box-shadow: none;
   }
   & .Select-value {
     padding-right: 10px !important;
     position: relative !important;
     overflow: visible !important;
+  }
+  & .Select-value-label {
+    color: #bbb !important;
   }
   & .Select-input {
     display: none !important;
@@ -54,12 +66,15 @@ const Label = styled.div`
   font-weight: 100;
   font-size: 32px;
   font-family: roboto;
-  color: #aaa;
+  color: #999;
 `;
 const Text = styled.span`
   font-weight: 100;
   font-size: 48px;
   font-family: roboto;
+`;
+const Icon = styled.i`
+  cursor: pointer;
 `;
 
 const MOVIE_TYPES = [
@@ -104,38 +119,44 @@ class UserForm extends React.Component {
   }
   render() {
     return (
-      <FormWrapper>
-        <Form>
-          <Label>What'd like to watch?</Label>
-          <Text>I'd like to watch </Text>
-          {this.state.genre.value && this.state.genre.value.startsWith('a') ? <Text> an </Text> : <Text> a </Text>}
-          <MultiSelect
-            name="genre"
-            value={this.state.genre}
-            options={this.state.genres}
-            onChange={this.updateGenre}
-            searchable={false}
-          />
-          <Text> movie.</Text><br />
-          <Text>Suggest me some </Text>
-          <MultiSelect
-            name="movieType"
-            value={this.state.movieType}
-            options={this.state.movieTypes}
-            onChange={this.updateMovieType}
-            searchable={false}
-          />
-          <Text> ones!</Text><br />
-          <MultiSelect
-            name="movieType"
-            value={this.state.watchedOption}
-            options={this.state.watchedOptions}
-            onChange={this.updateWatchedOption}
-            searchable={false}
-          />
-          <Text>the ones I've watched.</Text>
-        </Form>
-      </FormWrapper>
+      <BackgroundLayer>
+        <FormWrapper>
+          <Form>
+            <Label>What'd like to watch?</Label>
+            <Text>I'd like to watch </Text>
+            {this.state.genre.value && this.state.genre.value.startsWith('a') ? <Text> an </Text> : <Text> a </Text>}
+            <MultiSelect
+              name="genre"
+              value={this.state.genre}
+              options={this.state.genres}
+              onChange={this.updateGenre}
+              searchable={false}
+            />
+            <Text> movie.</Text><br />
+            <Text>Suggest me some </Text>
+            <MultiSelect
+              name="movieType"
+              value={this.state.movieType}
+              options={this.state.movieTypes}
+              onChange={this.updateMovieType}
+              searchable={false}
+            />
+            <Text> ones!</Text><br />
+            <MultiSelect
+              name="movieType"
+              value={this.state.watchedOption}
+              options={this.state.watchedOptions}
+              onChange={this.updateWatchedOption}
+              searchable={false}
+            />
+            <Text>the ones I've watched.</Text>
+            <br />
+            <Icon>
+              <PlayIcon width="64px" />
+            </Icon>
+          </Form>
+        </FormWrapper>
+      </BackgroundLayer>
     );
   }
 }
