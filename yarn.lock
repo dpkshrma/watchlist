@@ -91,6 +91,10 @@ amdefine@>=0.0.4:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/amdefine/-/amdefine-1.0.1.tgz#4a5282ac164729e93619bcfd3ad151f817ce91f5"
 
+animation-bus@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/animation-bus/-/animation-bus-0.2.0.tgz#43854c2c9463fb82c664eff0e19b9733081150fa"
+
 anser@1.4.1:
   version "1.4.1"
   resolved "https://registry.yarnpkg.com/anser/-/anser-1.4.1.tgz#c3641863a962cebef941ea2c8706f2cb4f0716bd"
@@ -1824,6 +1828,10 @@ decamelize@^1.0.0, decamelize@^1.1.1, decamelize@^1.1.2:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/decamelize/-/decamelize-1.2.0.tgz#f6534d15148269b20352e7bee26f501f9a191290"
 
+decode-uri-component@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/decode-uri-component/-/decode-uri-component-0.2.0.tgz#eb3913333458775cb84cd1a1fae062106bb87545"
+
 deep-equal@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/deep-equal/-/deep-equal-1.0.1.tgz#f5d260292b660e084eff4cdbc9f08ad3247448b5"
@@ -2773,6 +2781,10 @@ get-caller-file@^1.0.1:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/get-caller-file/-/get-caller-file-1.0.2.tgz#f702e63127e7e231c160a80c1554acb70d5047e5"
 
+get-prefix@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/get-prefix/-/get-prefix-1.0.0.tgz#0d305448a4e3176f9c277175b14e16dbe6fba0b5"
+
 get-stdin@^4.0.1:
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/get-stdin/-/get-stdin-4.0.1.tgz#b968c6b0a04384324902e8bf1a5df32579a450fe"
@@ -3514,7 +3526,7 @@ isobject@^3.0.1:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/isobject/-/isobject-3.0.1.tgz#4e431e92b11a9731636aa1f9c8d1ccbcfdab78df"
 
-isomorphic-fetch@^2.1.1:
+isomorphic-fetch@^2.1.1, isomorphic-fetch@^2.2.1:
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/isomorphic-fetch/-/isomorphic-fetch-2.2.1.tgz#611ae1acf14f5e81f729507472819fe9733558a9"
   dependencies:
@@ -4253,6 +4265,10 @@ minimist@^1.1.1, minimist@^1.1.3, minimist@^1.2.0:
 minimist@~0.0.1:
   version "0.0.10"
   resolved "https://registry.yarnpkg.com/minimist/-/minimist-0.0.10.tgz#de3f98543dbf96082be48ad1a0c7cda836301dcf"
+
+mitt@^1.0.0:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/mitt/-/mitt-1.1.2.tgz#380e61480d6a615b660f07abb60d51e0a4e4bed6"
 
 mkdirp@0.5.1, mkdirp@0.5.x, "mkdirp@>=0.5 0", mkdirp@^0.5.0, mkdirp@^0.5.1, mkdirp@~0.5.0, mkdirp@~0.5.1:
   version "0.5.1"
@@ -5148,6 +5164,14 @@ query-string@^4.1.0:
     object-assign "^4.1.0"
     strict-uri-encode "^1.0.0"
 
+query-string@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/query-string/-/query-string-5.0.0.tgz#fbdf7004b4d2aff792f9871981b7a2794f555947"
+  dependencies:
+    decode-uri-component "^0.2.0"
+    object-assign "^4.1.0"
+    strict-uri-encode "^1.0.0"
+
 querystring-es3@^0.2.0:
   version "0.2.1"
   resolved "https://registry.yarnpkg.com/querystring-es3/-/querystring-es3-0.2.1.tgz#9ec61f79049875707d69414596fd907a4d711e73"
@@ -5163,6 +5187,12 @@ querystringify@0.0.x:
 querystringify@~1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/querystringify/-/querystringify-1.0.0.tgz#6286242112c5b712fa654e526652bf6a13ff05cb"
+
+raf@^3.1.0:
+  version "3.4.0"
+  resolved "https://registry.yarnpkg.com/raf/-/raf-3.4.0.tgz#a28876881b4bc2ca9117d4138163ddb80f781575"
+  dependencies:
+    performance-now "^2.1.0"
 
 randomatic@^1.1.3:
   version "1.1.7"
@@ -5251,6 +5281,14 @@ react-input-autosize@^2.0.1:
     create-react-class "^15.5.2"
     prop-types "^15.5.8"
 
+react-motion@^0.5.0:
+  version "0.5.1"
+  resolved "https://registry.yarnpkg.com/react-motion/-/react-motion-0.5.1.tgz#b90631408175ab1668e173caccd66d41a44f4592"
+  dependencies:
+    performance-now "^0.2.0"
+    prop-types "^15.5.8"
+    raf "^3.1.0"
+
 react-router-dom@^4.2.2:
   version "4.2.2"
   resolved "https://registry.yarnpkg.com/react-router-dom/-/react-router-dom-4.2.2.tgz#c8a81df3adc58bba8a76782e946cbd4eae649b8d"
@@ -5323,6 +5361,17 @@ react-select@^1.0.0-rc.10:
     classnames "^2.2.4"
     prop-types "^15.5.8"
     react-input-autosize "^2.0.1"
+
+react-view-pager@^0.5.1:
+  version "0.5.1"
+  resolved "https://registry.yarnpkg.com/react-view-pager/-/react-view-pager-0.5.1.tgz#aa2d7a5e8827b870e4c9e5f2906a8b341d157d61"
+  dependencies:
+    animation-bus "^0.2.0"
+    get-prefix "^1.0.0"
+    mitt "^1.0.0"
+    react-motion "^0.5.0"
+    resize-observer-polyfill "^1.4.2"
+    tabbable "^1.0.5"
 
 "react@^15 || ^16", react@^16.0.0:
   version "16.0.0"
@@ -5604,6 +5653,10 @@ require-uncached@^1.0.3:
 requires-port@1.0.x, requires-port@1.x.x:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/requires-port/-/requires-port-1.0.0.tgz#925d2601d39ac485e091cf0da5c6e694dc3dcaff"
+
+resize-observer-polyfill@^1.4.2:
+  version "1.4.2"
+  resolved "https://registry.yarnpkg.com/resize-observer-polyfill/-/resize-observer-polyfill-1.4.2.tgz#a37198e6209e888acb1532a9968e06d38b6788e5"
 
 resolve-dir@^1.0.0:
   version "1.0.1"
@@ -6134,6 +6187,10 @@ sw-toolbox@^3.4.0:
 symbol-tree@^3.2.1:
   version "3.2.2"
   resolved "https://registry.yarnpkg.com/symbol-tree/-/symbol-tree-3.2.2.tgz#ae27db38f660a7ae2e1c3b7d1bc290819b8519e6"
+
+tabbable@^1.0.5:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/tabbable/-/tabbable-1.1.0.tgz#2c9a9c9f09db5bb0659f587d532548dd6ef2067b"
 
 table@^4.0.1:
   version "4.0.2"
