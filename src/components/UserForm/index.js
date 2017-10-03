@@ -100,7 +100,7 @@ class UserForm extends React.Component {
     this.state = {
       genre: DEFAULT_GENRES[0],
       genres: DEFAULT_GENRES,
-      movieType: MOVIE_TYPES[0],
+      movieType: MOVIE_TYPES[2],
       movieTypes: MOVIE_TYPES,
       includeWatched: WATCHED_OPTIONS[0],
       watchedOptions: WATCHED_OPTIONS,

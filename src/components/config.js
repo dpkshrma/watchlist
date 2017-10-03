@@ -7,6 +7,9 @@ export const SORT_MAP = {
   topRated: 'vote_average.desc',
   rare: 'release_date.asc',
 };
-export const TMDB_POSTER_URL = `https://image.tmdb.org/t/p/w342`;
-export const TMDB_BACKDROP_URL = `https://image.tmdb.org/t/p/w342`;
+const IMG_URL = 'https://image.tmdb.org/t/p';
+export const TMDB_POSTER_WIDTH = 342;
+export const TMDB_BACKDROP_WIDTH = 300;
+export const TMDB_POSTER_URL = `${IMG_URL}/w${TMDB_POSTER_WIDTH}`;
+export const TMDB_BACKDROP_URL = `${IMG_URL}/w${TMDB_BACKDROP_WIDTH}`;
 export const TMDB_GENRE_URL = `${TMDB_API_URL}/genre/movie/list`;
