@@ -7,13 +7,12 @@ import { ViewPager, Frame, Track, View } from 'react-view-pager';
 import { LeftChevron, RightChevron } from './chevrons';
 import {
   TMDB_API_KEY,
-  TMDB_POSTER_URL,
-  TMDB_BACKDROP_URL,
   TMDB_POSTER_WIDTH,
   TMDB_BACKDROP_WIDTH,
   TMDB_DISCOVER_URL,
   SORT_MAP
 } from '../config';
+import { getPosterURL, getBackdropURL } from './helpers';
 
 const Wrapper = styled.div`
   height: 100vh;
@@ -46,7 +45,6 @@ const HiddenImg = styled.img`
   visibility: hidden;
 `;
 const Poster = styled.div`
-  max-height: 600px;
   background: ${({ bgURL }) => `url(${bgURL})`};
   width: ${({width}) => `${width}px`};
 `;
@@ -92,22 +90,45 @@ const NavLink = styled.a`
   position: absolute;
   top: 35vh;
 `;
+const WatchList = styled.div`
+  display: flex;
+  overflow-x: scroll;
+  margin-bottom: ${({ numItems }) => numItems>0 ? '-140px' : '0' };
+  ${({ overflow }) => !overflow && 'justify-content: center;'}
+`;
+const WatchMovieImg = styled.img`
+  margin-right: 16px;
+  margin-top: 20px;
+  max-height: 120px;
+`;
 
 class SuggestionList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       movies: [],
+      watchlist: [],
+      watchlistOverflow: false,
+      watchlistItemWidth: 'xxsmall'
     };
   }
   componentWillMount() {
     this.fetchMovies()
       .then(({ page, movies }) => {
-        this.setState({ page, movies });
+        // TODO fetch watchlist from localstorage
+        this.setState({
+          page,
+          movies,
+        }, () => {
+          this.setState({
+            watchlistOverflow: this.isWatchlistOverflowing(),
+          });
+        });
       });
+    // populate watchlist from localstorage
   }
   formatDate = dateObject => {
-    // TODO: write a generic version
+    // TODO write a generic version
     return `${dateObject.getFullYear()}-${dateObject.getMonth()}-${dateObject.getDate()}`;
   }
   fetchMovies = () => {
@@ -147,6 +168,19 @@ class SuggestionList extends React.Component {
   onViewChange = currentViewIndices => {
     const [lastViewIndex] = currentViewIndices.slice(-1);
   }
+  isWatchlistOverflowing = () => {
+    const numWatchList = this.state.watchlist.length;
+    const scrollWidth = numWatchList*(16+TMDB_POSTER_WIDTH[this.state.watchlistItemWidth]);
+    return (scrollWidth > this.watchlist.clientWidth);
+  }
+  addToWatchList = movieIndex => {
+    // TODO add movie to localstorage
+    const movie = this.state.movies[movieIndex];
+    this.setState({
+      watchlist: [...this.state.watchlist, movie],
+      watchlistOverflow: this.isWatchlistOverflowing(),
+    });
+  }
   render() {
     return (
       <Wrapper>
@@ -166,19 +200,19 @@ class SuggestionList extends React.Component {
               {
                 this.state.movies
                   .filter(movie => movie.posterPath || movie.backdropPath)
-                  .map(movie => {
-                    let imgURL, posterWidth=TMDB_POSTER_WIDTH;
+                  .map((movie, movieIndex) => {
+                    let imgURL, posterWidth=TMDB_POSTER_WIDTH.medium;
                     if (movie.posterPath) {
-                      imgURL = `${TMDB_POSTER_URL}${movie.posterPath}?api_key=${TMDB_API_KEY}`;
+                      imgURL = `${getPosterURL('medium')}${movie.posterPath}?api_key=${TMDB_API_KEY}`;
                     } else if (movie.backdropPath) {
-                      posterWidth=TMDB_BACKDROP_WIDTH;
-                      imgURL = `${TMDB_BACKDROP_URL}${movie.backdropPath}?api_key=${TMDB_API_KEY}`;
+                      posterWidth=TMDB_BACKDROP_WIDTH.medium;
+                      imgURL = `${getBackdropURL('medium')}${movie.backdropPath}?api_key=${TMDB_API_KEY}`;
                     }
                     return (
                       <View className="view" key={movie.id} style={{ position: 'relative' }}>
                         <Poster bgURL={imgURL} width={posterWidth}>
                           <HiddenImg src={imgURL} />
-                          <AddButton maxWidth={posterWidth}>Add to Watch list</AddButton>
+                          <AddButton maxWidth={posterWidth} onClick={() => this.addToWatchList(movieIndex)}>Add to Watch list</AddButton>
                         </Poster>
                       </View>
                     );
@@ -207,6 +241,20 @@ class SuggestionList extends React.Component {
             </NavLink>
           </nav>
         </ViewPager>
+        <WatchList
+          innerRef={(comp) => { this.watchlist = comp }}
+          numItems={this.state.watchlist.length}
+          {...this.state.watchlistOverflow && {overflow: 'overflow'}}
+        >
+          {
+            this.state.watchlist.map(
+              movie => {
+                const imgURL = `${getPosterURL(this.state.watchlistItemWidth)}${movie.posterPath}?api_key=${TMDB_API_KEY}`;
+                return <WatchMovieImg src={imgURL} key={movie.id}/>;
+              }
+            )
+          }
+        </WatchList>
       </Wrapper>
     );
   }

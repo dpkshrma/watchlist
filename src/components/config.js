@@ -7,9 +7,18 @@ export const SORT_MAP = {
   topRated: 'vote_average.desc',
   rare: 'release_date.asc',
 };
-const IMG_URL = 'https://image.tmdb.org/t/p';
-export const TMDB_POSTER_WIDTH = 342;
-export const TMDB_BACKDROP_WIDTH = 300;
-export const TMDB_POSTER_URL = `${IMG_URL}/w${TMDB_POSTER_WIDTH}`;
-export const TMDB_BACKDROP_URL = `${IMG_URL}/w${TMDB_BACKDROP_WIDTH}`;
 export const TMDB_GENRE_URL = `${TMDB_API_URL}/genre/movie/list`;
+export const IMG_URL = 'https://image.tmdb.org/t/p';
+export const TMDB_POSTER_WIDTH = {
+  xxsmall: 92,
+  xsmall: 154,
+  small: 185,
+  medium: 342,
+  large: 500,
+  xlarge: 780,
+};
+export const TMDB_BACKDROP_WIDTH = {
+  medium: 300,
+  xlarge: 780,
+  xxlarge: 1280,
+};
