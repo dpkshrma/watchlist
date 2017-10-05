@@ -2,7 +2,6 @@ import React from 'react';
 import styled from 'styled-components';
 import queryString from 'query-string';
 import fetch from 'isomorphic-fetch';
-import update from 'immutability-helper';
 import { Link } from 'react-router-dom';
 import { ViewPager, Frame, Track, View } from 'react-view-pager';
 import { LeftChevron, RightChevron } from './chevrons';
@@ -179,11 +178,6 @@ class SuggestionList extends React.Component {
     // TODO add movie to localstorage
     const movie = this.state.movies[movieIndex];
     this.setState({
-      movies: update(this.state.movies, {
-        $splice: [
-          [movieIndex, 1, Object.assign({}, movie, { onWatchlist: true })],
-        ],
-      }),
       watchlist: [...this.state.watchlist, movie],
       watchlistOverflow: this.isWatchlistOverflowing(),
     });
@@ -215,6 +209,7 @@ class SuggestionList extends React.Component {
                       posterWidth=TMDB_BACKDROP_WIDTH.medium;
                       imgURL = `${getBackdropURL('medium')}${movie.backdropPath}?api_key=${TMDB_API_KEY}`;
                     }
+                    const onWatchlist = this.state.watchlist.map(m => m.id).indexOf(movie.id) !== -1;
                     return (
                       <View className="view" key={movie.id} style={{ position: 'relative' }}>
                         <Poster bgURL={imgURL} width={posterWidth}>
@@ -222,11 +217,11 @@ class SuggestionList extends React.Component {
                           <AddButton
                             maxWidth={posterWidth}
                             onClick={() => this.addToWatchList(movieIndex)}
-                            disabled={movie.onWatchlist}
-                            onWatchlist={movie.onWatchlist}
+                            disabled={onWatchlist}
+                            onWatchlist={onWatchlist}
                           >
                             {
-                              !movie.onWatchlist ?
+                              !onWatchlist ?
                               'Add to Watch list' :
                               'On the watch!'
                             }
@@ -268,7 +263,7 @@ class SuggestionList extends React.Component {
             this.state.watchlist.map(
               movie => {
                 const imgURL = `${getPosterURL(this.state.watchlistItemWidth)}${movie.posterPath}?api_key=${TMDB_API_KEY}`;
-                return <WatchMovieImg src={imgURL} key={movie.id}/>;
+                return <WatchMovieImg src={imgURL} key={movie.id} />;
               }
             )
           }
