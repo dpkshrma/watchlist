@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import queryString from 'query-string';
 import fetch from 'isomorphic-fetch';
+import update from 'immutability-helper';
 import { Link } from 'react-router-dom';
 import { ViewPager, Frame, Track, View } from 'react-view-pager';
 import { LeftChevron, RightChevron } from './chevrons';
@@ -48,9 +49,10 @@ const Poster = styled.div`
   background: ${({ bgURL }) => `url(${bgURL})`};
   width: ${({width}) => `${width}px`};
 `;
-const Button = styled.div`
+const PosterButton = styled.button`
   position: absolute;
   bottom: 0;
+  left: 0;
   color: #aaa;
   text-align: center;
   font-family: roboto;
@@ -62,19 +64,21 @@ const Button = styled.div`
     color: #fff;
   }
   padding: 12px;
-  cursor: pointer;
   text-overflow: clip;
   white-space: nowrap;
   overflow: hidden;
+  border: none;
+  outline: none;
+  cursor: ${({ onWatchlist }) => onWatchlist ? 'not-allowed' : 'pointer' };
 `;
-const AddButton = styled(Button)`
-  width: ${({ maxWidth }) => `calc(${maxWidth}px - 24px)`};
+const AddButton = styled(PosterButton)`
+  width: ${({ maxWidth }) => `${maxWidth}px`};
   ${'' /* width: ${({ maxWidth }) => `${0.20*maxWidth}px`};
   &:hover {
     width: ${({ maxWidth }) => `${0.80*maxWidth}px`};
   } */}
 `;
-const WatchedButton = styled(Button)`
+const WatchedButton = styled(PosterButton)`
   left: ${({ maxWidth }) => `${0.20*maxWidth}px`};
   width: ${({ maxWidth }) => `${0.80*maxWidth}px`};
   &:hover {
@@ -149,9 +153,7 @@ class SuggestionList extends React.Component {
           totalResults: data.total_results,
           totalPages: data.total_pages,
           movies: data.results
-            .filter(movie => {
-              return (movie.poster_path || movie.backdrop_path);
-            })
+            .filter(movie => (movie.poster_path || movie.backdrop_path))
             .map(({ poster_path, backdrop_path, id, title, release_date, overview }) => {
               return {
                 posterPath: poster_path,
@@ -177,6 +179,11 @@ class SuggestionList extends React.Component {
     // TODO add movie to localstorage
     const movie = this.state.movies[movieIndex];
     this.setState({
+      movies: update(this.state.movies, {
+        $splice: [
+          [movieIndex, 1, Object.assign({}, movie, { onWatchlist: true })],
+        ],
+      }),
       watchlist: [...this.state.watchlist, movie],
       watchlistOverflow: this.isWatchlistOverflowing(),
     });
@@ -212,7 +219,18 @@ class SuggestionList extends React.Component {
                       <View className="view" key={movie.id} style={{ position: 'relative' }}>
                         <Poster bgURL={imgURL} width={posterWidth}>
                           <HiddenImg src={imgURL} />
-                          <AddButton maxWidth={posterWidth} onClick={() => this.addToWatchList(movieIndex)}>Add to Watch list</AddButton>
+                          <AddButton
+                            maxWidth={posterWidth}
+                            onClick={() => this.addToWatchList(movieIndex)}
+                            disabled={movie.onWatchlist}
+                            onWatchlist={movie.onWatchlist}
+                          >
+                            {
+                              !movie.onWatchlist ?
+                              'Add to Watch list' :
+                              'On the watch!'
+                            }
+                          </AddButton>
                         </Poster>
                       </View>
                     );
