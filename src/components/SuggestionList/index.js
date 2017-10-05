@@ -119,16 +119,22 @@ class SuggestionList extends React.Component {
     this.fetchMovies()
       .then(({ page, movies }) => {
         // TODO fetch watchlist from localstorage
+        let watchlist = localStorage.getItem('watchlist');
+        if (watchlist) {
+          watchlist = JSON.parse(watchlist);
+        } else {
+          watchlist = [];
+        }
         this.setState({
           page,
           movies,
+          watchlist,
         }, () => {
           this.setState({
             watchlistOverflow: this.isWatchlistOverflowing(),
           });
         });
       });
-    // populate watchlist from localstorage
   }
   formatDate = dateObject => {
     // TODO write a generic version
@@ -174,13 +180,24 @@ class SuggestionList extends React.Component {
     const scrollWidth = numWatchList*(16+TMDB_POSTER_WIDTH[this.state.watchlistItemWidth]);
     return (scrollWidth > this.watchlist.clientWidth);
   }
+  addToLocalStorage = movie => {
+    let watchlist = localStorage.getItem('watchlist');
+    if (watchlist) {
+      watchlist = JSON.parse(watchlist);
+    } else {
+      watchlist = [];
+    }
+    watchlist.push(movie);
+    const serializedWatchlist = JSON.stringify(watchlist);
+    localStorage.setItem('watchlist', serializedWatchlist);
+  }
   addToWatchList = movieIndex => {
     // TODO add movie to localstorage
     const movie = this.state.movies[movieIndex];
     this.setState({
       watchlist: [...this.state.watchlist, movie],
       watchlistOverflow: this.isWatchlistOverflowing(),
-    });
+    }, () => this.addToLocalStorage(movie));
   }
   render() {
     return (
