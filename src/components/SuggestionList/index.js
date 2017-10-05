@@ -99,8 +99,23 @@ const Watchlist = styled.div`
   margin-bottom: ${({ numItems }) => numItems>0 ? '-140px' : '0' };
   ${({ overflow }) => !overflow && 'justify-content: center;'}
 `;
+const WatchlistBackdrop = styled.h1`
+  position: absolute;
+  bottom: -32px;
+  font-size: 80px;
+  font-weight: bold;
+  font-family: roboto;
+  color: #222;
+  z-index: 99;
+  letter-spacing: 40px;
+`
 const WatchlistItem = styled.div`
   position: relative;
+  z-index: 100;
+  opacity: 0.6;
+  &:hover {
+    opacity: 1;
+  }
 `;
 const MovieThumb = styled.img`
   margin-right: 16px;
@@ -317,6 +332,7 @@ class SuggestionList extends React.Component {
           numItems={this.state.watchlist.length}
           {...this.state.watchlistOverflow && {overflow: 'overflow'}}
         >
+          <WatchlistBackdrop>WATCHLIST</WatchlistBackdrop>
           {
             this.state.watchlist.map(
               movie => {
