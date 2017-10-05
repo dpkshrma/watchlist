@@ -93,16 +93,40 @@ const NavLink = styled.a`
   position: absolute;
   top: 35vh;
 `;
-const WatchList = styled.div`
+const Watchlist = styled.div`
   display: flex;
   overflow-x: scroll;
   margin-bottom: ${({ numItems }) => numItems>0 ? '-140px' : '0' };
   ${({ overflow }) => !overflow && 'justify-content: center;'}
 `;
-const WatchMovieImg = styled.img`
+const WatchlistItem = styled.div`
+  position: relative;
+`;
+const MovieThumb = styled.img`
   margin-right: 16px;
   margin-top: 20px;
   max-height: 120px;
+`;
+const Cross = styled.span`
+  border-radius: 50%;
+  font-family: roboto;
+  font-weight: 100;
+  font-size: 12px;
+  border: 1px solid #999;
+  color: #999;
+  position: absolute;
+  top: 16px;
+  right: 8px;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  &:hover {
+    border-color: #EF5350;
+    color: #EF5350;
+  }
 `;
 
 class SuggestionList extends React.Component {
@@ -191,6 +215,17 @@ class SuggestionList extends React.Component {
     const serializedWatchlist = JSON.stringify(watchlist);
     localStorage.setItem('watchlist', serializedWatchlist);
   }
+  removeFromLocalStorage = movieId => {
+    let watchlist = localStorage.getItem('watchlist');
+    if (watchlist) {
+      watchlist = JSON.parse(watchlist);
+    } else {
+      watchlist = [];
+    }
+    watchlist = watchlist.filter(movie => movie.id !== movieId);
+    const serializedWatchlist = JSON.stringify(watchlist);
+    localStorage.setItem('watchlist', serializedWatchlist);
+  }
   addToWatchList = movieIndex => {
     // TODO add movie to localstorage
     const movie = this.state.movies[movieIndex];
@@ -198,6 +233,12 @@ class SuggestionList extends React.Component {
       watchlist: [...this.state.watchlist, movie],
       watchlistOverflow: this.isWatchlistOverflowing(),
     }, () => this.addToLocalStorage(movie));
+  }
+  removeFromWatchlist = movieId => {
+    this.setState({
+      watchlist: [...this.state.watchlist.filter(m => m.id !== movieId)],
+      watchlistOverflow: this.isWatchlistOverflowing(),
+    }, () => this.removeFromLocalStorage(movieId));
   }
   render() {
     return (
@@ -271,7 +312,7 @@ class SuggestionList extends React.Component {
             </NavLink>
           </nav>
         </ViewPager>
-        <WatchList
+        <Watchlist
           innerRef={(comp) => { this.watchlist = comp }}
           numItems={this.state.watchlist.length}
           {...this.state.watchlistOverflow && {overflow: 'overflow'}}
@@ -280,11 +321,18 @@ class SuggestionList extends React.Component {
             this.state.watchlist.map(
               movie => {
                 const imgURL = `${getPosterURL(this.state.watchlistItemWidth)}${movie.posterPath}?api_key=${TMDB_API_KEY}`;
-                return <WatchMovieImg src={imgURL} key={movie.id} />;
+                return (
+                  <WatchlistItem key={movie.id}>
+                    <MovieThumb src={imgURL} />
+                    <Cross onClick={() => this.removeFromWatchlist(movie.id)}>
+                      x
+                    </Cross>
+                  </WatchlistItem>
+                );
               }
             )
           }
-        </WatchList>
+        </Watchlist>
       </Wrapper>
     );
   }
