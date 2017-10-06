@@ -23,6 +23,5 @@ export const TMDB_BACKDROP_WIDTH = {
   xlarge: 780,
   xxlarge: 1280,
 };
-// export const WEB_APP_URL = 'http://dpkshrma.github.io/watchlist';
-export const WEB_APP_URL = 'http://localhost:3000';
+export const WEB_APP_URL = 'http://dpkshrma.github.io/watchlist';
 export const TWITTER_SHARE_URL = 'https://twitter.com/share';

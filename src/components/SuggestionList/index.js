@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import queryString from 'query-string';
 import fetch from 'isomorphic-fetch';
 import { Link } from 'react-router-dom';
@@ -23,7 +23,7 @@ const Wrapper = styled.div`
   justify-content: center;
   flex-direction: column;
 `;
-const StyledLink = styled.a`
+const topLinkStyles = css`
   font-weight: 100;
   font-family: roboto;
   font-size: 24px;
@@ -35,11 +35,13 @@ const StyledLink = styled.a`
     color: #55c4cd;
   }
 `;
-const BackLink = styled(StyledLink)`
+const BackLink = styled(Link)`
+  ${topLinkStyles}
   color: #999;
   margin-left: 12px;
 `;
-const ShareLink = styled(StyledLink)`
+const ShareLink = styled.a`
+  ${topLinkStyles}
   font-size: 32px;
   align-self: center;
 `;
@@ -277,16 +279,15 @@ class SuggestionList extends React.Component {
   getShareURL = () => {
     const shareText = `Check out ${this.state.watchlist.length} movies on my watchlist:`;
     const movieIds = this.state.watchlist.map(m => m.id).join(',');
-    const listURL = `${WEB_APP_URL}/list?movies=${movieIds}`;
-    return `${TWITTER_SHARE_URL}?text=${shareText}&url=${listURL}`;
+    const listURL = encodeURI(`${WEB_APP_URL}/list?movies=${movieIds}`);
+    const shareURL = `${TWITTER_SHARE_URL}?text=${shareText}&url=${listURL}`;
+    return shareURL;
   }
   render() {
     return (
       <Wrapper>
         <BackLink to="/">{'<'} Back</BackLink>
-        <ShareLink href={this.getShareURL()}>
-          Share watchlist
-        </ShareLink>
+        <ShareLink href={this.getShareURL()} target="_blank">Share watchlist</ShareLink>
         <ViewPager tag="main">
           <Frame className="frame">
             <Track
