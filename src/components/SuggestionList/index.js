@@ -159,6 +159,7 @@ class SuggestionList extends React.Component {
   }
   componentWillMount() {
     const queryParams = queryString.parse(window.location.search);
+    const watchlist = this.getFromLocalStorage();
     if (queryParams.movies) {
       const movieIds = queryParams.movies.split(',');
       movieIds.map(movieId => {
@@ -167,6 +168,7 @@ class SuggestionList extends React.Component {
           .then(response => response.json())
           .then(({ poster_path, backdrop_path, id, title, release_date, overview }) => {
             this.setState({
+              watchlist,
               movies: [
                 ...this.state.movies,
                 {
@@ -184,12 +186,6 @@ class SuggestionList extends React.Component {
     } else {
       this.discoverMovies()
         .then(({ page, movies }) => {
-          let watchlist = localStorage.getItem('watchlist');
-          if (watchlist) {
-            watchlist = JSON.parse(watchlist);
-          } else {
-            watchlist = [];
-          }
           this.setState({
             page,
             movies,
@@ -246,24 +242,21 @@ class SuggestionList extends React.Component {
     const scrollWidth = numWatchList*(16+TMDB_POSTER_WIDTH[this.state.watchlistItemWidth]);
     return (scrollWidth > this.watchlist.clientWidth);
   }
-  addToLocalStorage = movie => {
-    let watchlist = localStorage.getItem('watchlist');
+  getFromLocalStorage = () => {
+    const watchlist = localStorage.getItem('watchlist');
     if (watchlist) {
-      watchlist = JSON.parse(watchlist);
-    } else {
-      watchlist = [];
+      return JSON.parse(watchlist);
     }
+    return [];
+  }
+  addToLocalStorage = movie => {
+    const watchlist = this.getFromLocalStorage();
     watchlist.push(movie);
     const serializedWatchlist = JSON.stringify(watchlist);
     localStorage.setItem('watchlist', serializedWatchlist);
   }
   removeFromLocalStorage = movieId => {
-    let watchlist = localStorage.getItem('watchlist');
-    if (watchlist) {
-      watchlist = JSON.parse(watchlist);
-    } else {
-      watchlist = [];
-    }
+    let watchlist = this.getFromLocalStorage();
     watchlist = watchlist.filter(movie => movie.id !== movieId);
     const serializedWatchlist = JSON.stringify(watchlist);
     localStorage.setItem('watchlist', serializedWatchlist);
