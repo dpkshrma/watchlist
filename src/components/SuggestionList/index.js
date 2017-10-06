@@ -10,6 +10,7 @@ import {
   TMDB_POSTER_WIDTH,
   TMDB_BACKDROP_WIDTH,
   TMDB_DISCOVER_URL,
+  TMDB_MOVIE_URL,
   SORT_MAP
 } from '../config';
 import { getPosterURL, getBackdropURL } from './helpers';
@@ -125,10 +126,10 @@ const MovieThumb = styled.img`
 const Cross = styled.span`
   border-radius: 50%;
   font-family: roboto;
-  font-weight: 100;
+  font-weight: 500;
   font-size: 12px;
-  border: 1px solid #999;
-  color: #999;
+  border: 2px solid #ccc;
+  color: #eee;
   position: absolute;
   top: 16px;
   right: 8px;
@@ -155,31 +156,55 @@ class SuggestionList extends React.Component {
     };
   }
   componentWillMount() {
-    this.fetchMovies()
-      .then(({ page, movies }) => {
-        // TODO fetch watchlist from localstorage
-        let watchlist = localStorage.getItem('watchlist');
-        if (watchlist) {
-          watchlist = JSON.parse(watchlist);
-        } else {
-          watchlist = [];
-        }
-        this.setState({
-          page,
-          movies,
-          watchlist,
-        }, () => {
+    const queryParams = queryString.parse(window.location.search);
+    if (queryParams.movies) {
+      const movieIds = queryParams.movies.split(',');
+      movieIds.map(movieId => {
+        const url = `${TMDB_MOVIE_URL}/${movieId}?api_key=${TMDB_API_KEY}`;
+        return fetch(url)
+          .then(response => response.json())
+          .then(({ poster_path, backdrop_path, id, title, release_date, overview }) => {
+            this.setState({
+              movies: [
+                ...this.state.movies,
+                {
+                  posterPath: poster_path,
+                  backdropPath: backdrop_path,
+                  id,
+                  title,
+                  releaseDate: release_date,
+                  overview,
+                }
+              ]
+            })
+          })
+      })
+    } else {
+      this.discoverMovies()
+        .then(({ page, movies }) => {
+          let watchlist = localStorage.getItem('watchlist');
+          if (watchlist) {
+            watchlist = JSON.parse(watchlist);
+          } else {
+            watchlist = [];
+          }
           this.setState({
-            watchlistOverflow: this.isWatchlistOverflowing(),
+            page,
+            movies,
+            watchlist,
+          }, () => {
+            this.setState({
+              watchlistOverflow: this.isWatchlistOverflowing(),
+            });
           });
         });
-      });
+    }
   }
   formatDate = dateObject => {
     // TODO write a generic version
     return `${dateObject.getFullYear()}-${dateObject.getMonth()}-${dateObject.getDate()}`;
   }
-  fetchMovies = () => {
+  discoverMovies = () => {
     const queryParams = queryString.parse(window.location.search);
     const discoverQueryString = queryString.stringify({
       api_key: TMDB_API_KEY,
@@ -242,7 +267,6 @@ class SuggestionList extends React.Component {
     localStorage.setItem('watchlist', serializedWatchlist);
   }
   addToWatchList = movieIndex => {
-    // TODO add movie to localstorage
     const movie = this.state.movies[movieIndex];
     this.setState({
       watchlist: [...this.state.watchlist, movie],

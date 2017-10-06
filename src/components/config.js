@@ -8,7 +8,8 @@ export const SORT_MAP = {
   rare: 'release_date.asc',
 };
 export const TMDB_GENRE_URL = `${TMDB_API_URL}/genre/movie/list`;
-export const IMG_URL = 'https://image.tmdb.org/t/p';
+export const TMDB_MOVIE_URL = `${TMDB_API_URL}/movie`;
+export const TMDB_IMG_URL = 'https://image.tmdb.org/t/p';
 export const TMDB_POSTER_WIDTH = {
   xxsmall: 92,
   xsmall: 154,
