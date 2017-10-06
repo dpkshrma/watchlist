@@ -11,6 +11,8 @@ import {
   TMDB_BACKDROP_WIDTH,
   TMDB_DISCOVER_URL,
   TMDB_MOVIE_URL,
+  WEB_APP_URL,
+  TWITTER_SHARE_URL,
   SORT_MAP
 } from '../config';
 import { getPosterURL, getBackdropURL } from './helpers';
@@ -21,7 +23,7 @@ const Wrapper = styled.div`
   justify-content: center;
   flex-direction: column;
 `;
-const StyledLink = styled(Link)`
+const StyledLink = styled.a`
   font-weight: 100;
   font-family: roboto;
   font-size: 24px;
@@ -152,7 +154,7 @@ class SuggestionList extends React.Component {
       movies: [],
       watchlist: [],
       watchlistOverflow: false,
-      watchlistItemWidth: 'xxsmall'
+      watchlistItemWidth: 'xxsmall',
     };
   }
   componentWillMount() {
@@ -279,11 +281,17 @@ class SuggestionList extends React.Component {
       watchlistOverflow: this.isWatchlistOverflowing(),
     }, () => this.removeFromLocalStorage(movieId));
   }
+  getShareURL = () => {
+    const shareText = `Check out ${this.state.watchlist.length} movies on my watchlist:`;
+    const movieIds = this.state.watchlist.map(m => m.id).join(',');
+    const listURL = `${WEB_APP_URL}/list?movies=${movieIds}`;
+    return `${TWITTER_SHARE_URL}?text=${shareText}&url=${listURL}`;
+  }
   render() {
     return (
       <Wrapper>
         <BackLink to="/">{'<'} Back</BackLink>
-        <ShareLink to="/">
+        <ShareLink href={this.getShareURL()}>
           Share watchlist
         </ShareLink>
         <ViewPager tag="main">
