@@ -178,7 +178,7 @@ class UserForm extends React.Component {
             searchable={false}
           />
           <Text> ones!</Text><br />
-          <MultiSelect
+          {/* <MultiSelect
             name="movieType"
             value={includeWatched}
             options={watchedOptions}
@@ -186,7 +186,7 @@ class UserForm extends React.Component {
             searchable={false}
           />
           <Text>the ones I've watched.</Text>
-          <br />
+          <br /> */}
           <Link to={`list?${listQueryString}`}>
             <Icon>
               <PlayIcon width="64px" />
