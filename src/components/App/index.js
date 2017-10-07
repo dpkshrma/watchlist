@@ -8,8 +8,8 @@ const BackgroundLayer = styled.div`
 `;
 
 const Overlay = styled.div`
-  background: rgba(0,0,0,0.8);
-`
+  background: rgba(0,20,45,0.75);
+`;
 
 const App = ({ children }) => {
   return (

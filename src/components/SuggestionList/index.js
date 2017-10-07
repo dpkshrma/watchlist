@@ -153,6 +153,7 @@ class SuggestionList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      page: 1,
       movies: [],
       watchlist: [],
       watchlistOverflow: false,
@@ -204,15 +205,19 @@ class SuggestionList extends React.Component {
     // TODO write a generic version
     return `${dateObject.getFullYear()}-${dateObject.getMonth()}-${dateObject.getDate()}`;
   }
-  discoverMovies = () => {
+  discoverMovies = nextPage => {
     const queryParams = queryString.parse(window.location.search);
-    const discoverQueryString = queryString.stringify({
+    const discoverQueryParams = {
       api_key: TMDB_API_KEY,
       sort_by: queryParams.sort_by && SORT_MAP[queryParams.sort_by],
       with_genres: queryParams.genreId,
       language: 'en-US',
       'primary_release_date.lte': this.formatDate(new Date()),
-    });
+    };
+    if (nextPage) {
+      discoverQueryParams.page =  nextPage;
+    }
+    const discoverQueryString = queryString.stringify(discoverQueryParams);
     const url = `${TMDB_DISCOVER_URL}?${discoverQueryString}`;
     return fetch(url)
       .then(response => response.json())
@@ -238,6 +243,13 @@ class SuggestionList extends React.Component {
   }
   onViewChange = currentViewIndices => {
     const [lastViewIndex] = currentViewIndices.slice(-1);
+    if (lastViewIndex===this.state.movies.length-1) {
+      // load more movies
+      this.discoverMovies(this.state.page + 1)
+        .then(({ page, movies }) => {
+          this.setState({ page, movies: [...this.state.movies, ...movies] });
+        });
+    }
   }
   isWatchlistOverflowing = () => {
     const numWatchList = this.state.watchlist.length;
