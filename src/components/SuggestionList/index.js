@@ -14,7 +14,7 @@ import {
   WEB_APP_URL,
   TWITTER_SHARE_URL,
   SORT_MAP
-} from '../config';
+} from '../../config';
 import { getPosterURL, getBackdropURL } from './helpers';
 
 const Wrapper = styled.div`

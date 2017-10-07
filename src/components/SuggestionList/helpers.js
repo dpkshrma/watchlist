@@ -1,4 +1,4 @@
-import { TMDB_IMG_URL, TMDB_POSTER_WIDTH, TMDB_BACKDROP_WIDTH } from '../config';
+import { TMDB_IMG_URL, TMDB_POSTER_WIDTH, TMDB_BACKDROP_WIDTH } from '../../config';
 
 export const getPosterURL = size => {
   if (Object.keys(TMDB_POSTER_WIDTH).indexOf(size) === -1) {

@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import 'react-select/dist/react-select.css';
 import queryString from 'query-string';
 import PlayIcon from './PlayIcon';
-import { TMDB_API_KEY, TMDB_GENRE_URL } from '../config';
+import { TMDB_API_KEY, TMDB_GENRE_URL } from '../../config';
 
 const FormWrapper = styled.div`
   display: flex;
