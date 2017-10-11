@@ -4,10 +4,10 @@ import App from './components/App';
 import { asyncLoad } from './helpers';
 
 const UserForm = asyncLoad({
-  loader: import('./components/UserForm'),
+  loader: () => import('./components/UserForm'),
 });
 const SuggestionList = asyncLoad({
-  loader: import('./components/SuggestionList'),
+  loader: () => import('./components/SuggestionList'),
 });
 
 export const routes = (

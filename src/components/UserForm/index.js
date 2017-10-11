@@ -1,6 +1,4 @@
 import React from 'react';
-import styled from 'styled-components';
-import Select from 'react-select';
 import { Link } from 'react-router-dom';
 import 'react-select/dist/react-select.css';
 import queryString from 'query-string';
