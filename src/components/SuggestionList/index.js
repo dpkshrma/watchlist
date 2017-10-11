@@ -1,8 +1,6 @@
 import React from 'react';
-import styled, { css } from 'styled-components';
 import queryString from 'query-string';
 import fetch from 'isomorphic-fetch';
-import { Link } from 'react-router-dom';
 import { ViewPager, Frame, Track, View } from 'react-view-pager';
 import { LeftChevron, RightChevron } from './chevrons';
 import {
@@ -18,14 +16,11 @@ import {
 import { getPosterURL, getBackdropURL } from './helpers';
 import {
   Wrapper,
-  topLinkStyles,
   BackLink,
   ShareLink,
   HiddenImg,
   Poster,
-  PosterButton,
   AddButton,
-  WatchedButton,
   NavLink,
   Watchlist,
   WatchlistBackdrop,
