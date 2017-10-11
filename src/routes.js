@@ -1,15 +1,20 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
-import { App, UserForm, SuggestionList, NotFoundPage } from './components';
+import App from './components/App';
+import { asyncLoad } from './helpers';
 
-const urlPrefix = process.env.PUBLIC_URL || '';
+const UserForm = asyncLoad({
+  loader: import('./components/UserForm'),
+});
+const SuggestionList = asyncLoad({
+  loader: import('./components/SuggestionList'),
+});
 
-export default (
+export const routes = (
   <App>
     <Switch>
-      <Route exact component={UserForm} path={`${urlPrefix}/`} />
-      <Route exact component={SuggestionList} path={`${urlPrefix}/list`} />
-      <Route component={NotFoundPage} />
+      <Route exact path="/" component={UserForm} />
+      <Route exact path="/list" component={SuggestionList} />
     </Switch>
   </App>
 );

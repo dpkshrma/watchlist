@@ -1,14 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter } from 'react-router-dom';
 import 'typeface-roboto';
-import routes from './routes';
+import { BrowserRouter } from 'react-router-dom';
+import { routes } from './routes';
 import registerServiceWorker from './registerServiceWorker';
 
-ReactDOM.render(
+ReactDOM.render((
   <BrowserRouter>
     {routes}
-  </BrowserRouter>,
-  document.getElementById('root')
-);
+  </BrowserRouter>
+), document.getElementById('root'));
 registerServiceWorker();
