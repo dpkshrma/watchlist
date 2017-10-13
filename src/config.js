@@ -25,3 +25,4 @@ export const TMDB_BACKDROP_WIDTH = {
 };
 export const WEB_APP_URL = 'http://dpkshrma.github.io/watchlist';
 export const TWITTER_SHARE_URL = 'https://twitter.com/share';
+export const URL_PREFIX = process.env.PUBLIC_URL || '';

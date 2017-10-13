@@ -3,6 +3,7 @@ import { Route } from 'react-router-dom';
 import { spring, AnimatedSwitch } from 'react-router-transition';
 import App from './components/App';
 import { asyncLoad } from './helpers';
+import { URL_PREFIX } from './config';
 
 // we need to map the `scale` prop we define below
 // to the transform style property
@@ -47,6 +48,9 @@ const UserForm = asyncLoad({
 const SuggestionList = asyncLoad({
   loader: () => import('./components/SuggestionList'),
 });
+const NotFoundPage = asyncLoad({
+  loader: () => import('./components/NotFoundPage'),
+});
 
 export const routes = (
   <App>
@@ -56,8 +60,9 @@ export const routes = (
       atActive={bounceTransition.atActive}
       mapStyles={mapStyles}
     >
-      <Route exact path="/" component={UserForm} />
-      <Route exact path="/list" component={SuggestionList} />
+      <Route exact component={UserForm} path={`${URL_PREFIX}/`} />
+      <Route exact component={SuggestionList} path={`${URL_PREFIX}/list`} />
+      <Route component={NotFoundPage} />
     </AnimatedSwitch>
   </App>
 );

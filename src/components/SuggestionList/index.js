@@ -11,7 +11,8 @@ import {
   TMDB_MOVIE_URL,
   WEB_APP_URL,
   TWITTER_SHARE_URL,
-  SORT_MAP
+  SORT_MAP,
+  URL_PREFIX
 } from '../../config';
 import { getPosterURL, getBackdropURL } from './helpers';
 import {
@@ -178,7 +179,7 @@ class SuggestionList extends React.Component {
   render() {
     return (
       <Wrapper>
-        <BackLink to="/">{'<'} Back</BackLink>
+        <BackLink to={`${URL_PREFIX}/`}>{'<'} Back</BackLink>
         <ShareLink href={this.getShareURL()} target="_blank">Share watchlist</ShareLink>
         <ViewPager tag="main">
           <Frame className="frame">
